@@ -4,10 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -19,6 +24,13 @@ public class Recyclerview extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview);
+        FloatingActionButton buttonAdd = findViewById(R.id.button_add);
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),NewNoteActivity.class));
+            }
+        });
         firebaseFirestore=FirebaseFirestore.getInstance();
         notebookRef = firebaseFirestore.collection("Notebook");
         setUpRecyclerView();
@@ -33,6 +45,17 @@ public class Recyclerview extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new NoteAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                Note note = documentSnapshot.toObject(Note.class);
+                String phone = note.getPhone();
+                Intent i = new Intent();
+                i.setAction(Intent.ACTION_SENDTO);
+                i.setData(Uri.parse("smsto:"+phone));
+                startActivity(i);
+            }
+        });
     }
 
     @Override

@@ -48,7 +48,7 @@ public class Register extends AppCompatActivity {
         progressBar=findViewById(R.id.progressBar2);
 
         if (firebaseAuth.getCurrentUser()!=null){
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            startActivity(new Intent(getApplicationContext(),fragmentActivity.class));
             finish();
         }
         textView.setOnClickListener(new View.OnClickListener() {

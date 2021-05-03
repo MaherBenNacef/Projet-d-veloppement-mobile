@@ -103,7 +103,7 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             Toast.makeText(getApplicationContext(),"User connected",Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            startActivity(new Intent(getApplicationContext(),fragmentActivity.class));
                         }else {
                             Toast.makeText(getApplicationContext(),"Error !"+task.getException().getMessage(),Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);

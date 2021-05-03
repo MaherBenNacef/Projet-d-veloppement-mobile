@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         button_recycler_view=findViewById(R.id.recycle_view);
         if (firebaseAuth.getCurrentUser().getUid()!=null){
 
-
         userId=firebaseAuth.getCurrentUser().getUid();
         DocumentReference documentReference = firebaseFirestore.collection("users").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {

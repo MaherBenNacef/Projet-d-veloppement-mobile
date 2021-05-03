@@ -35,18 +35,21 @@ public class fragmentActivity extends AppCompatActivity {
         /**************************************************************************************************/
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseFirestore=FirebaseFirestore.getInstance();
-
-        if (firebaseAuth.getCurrentUser().getUid()!=null){
-            userId=firebaseAuth.getCurrentUser().getUid();
-            DocumentReference documentReference = firebaseFirestore.collection("users").document(userId);
-            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-                @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    phoneUser=("Phone :"+value.getString("phone"));
-                    nameUser=("Name :"+value.getString("fName"));
-                    emailUser=("Email :"+value.getString("email"));
+        userId=firebaseAuth.getCurrentUser().getUid();
+        if (firebaseAuth.getCurrentUser()!=null){
+        DocumentReference documentReference = firebaseFirestore.collection("users").document(userId);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(userId!=null){
+                phoneUser=("Phone :"+value.getString("phone"));
+                nameUser=("Name :"+value.getString("fName"));
+                emailUser=("Email :"+value.getString("email"));
                 }
-            });
+            }
+        });
+        }else {
+            finish();
         }
         /*************************************************************************************************/
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
@@ -68,6 +71,7 @@ public class fragmentActivity extends AppCompatActivity {
                             selectedFragment = new HomeFragment();
                             break;
                             case R.id.nav_profile:
+                                //data();
                             selectedFragment = new ProfileFragment();
                                 Bundle bundle = new Bundle();
                                 bundle.putString("phoneUser",phoneUser);
@@ -85,4 +89,9 @@ public class fragmentActivity extends AppCompatActivity {
             };
 
 
+//    public void data(){
+//        if (firebaseAuth.getCurrentUser().getUid()!=null){
+//
+//        }
+//    }
 }

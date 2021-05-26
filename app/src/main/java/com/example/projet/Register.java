@@ -94,7 +94,7 @@ public class Register extends AppCompatActivity {
                                     Toast.makeText(Register.this,"User data stored with success",Toast.LENGTH_LONG).show();
                                 }
                             });
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            startActivity(new Intent(getApplicationContext(),fragmentActivity.class));
                         }else {
                             Toast.makeText(Register.this,"Error !"+task.getException().getMessage(),Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);
